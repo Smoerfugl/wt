@@ -7,6 +7,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/smoerfugl/wt/internal/commands"
+	"github.com/smoerfugl/wt/internal/utils"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -48,8 +49,26 @@ func main() {
 	case "add":
 		addCmd := flag.NewFlagSet("add", flag.ExitOnError)
 		createBranch := addCmd.Bool("b", false, "create a new branch with -b")
+		addCmd.String("exec", "", "command to execute in the worktree after creation")
+		addCmd.String("e", "", "command to execute in the worktree after creation (shorthand)")
 		addCmd.Parse(os.Args[2:])
 		args := addCmd.Args()
+
+		// Parse multiple --exec/-e flags manually
+		var execCommands []*utils.Command
+		for i := 0; i < len(os.Args[2:]); i++ {
+			if os.Args[2+i] == "--exec" || os.Args[2+i] == "-e" {
+				if i+1 < len(os.Args[2:]) {
+					cmdStr := os.Args[2+i+1]
+					cmd := utils.NewCommand("sh", []string{"-c", cmdStr})
+					if err := cmd.Validate(); err != nil {
+						fatal(fmt.Errorf("invalid --exec command: %w", err))
+					}
+					execCommands = append(execCommands, cmd)
+					i++ // Skip the command argument
+				}
+			}
+		}
 
 		if *createBranch {
 			// wt add -b <new-branch> [<start-point>]
@@ -69,53 +88,23 @@ func main() {
 			fatal(err)
 		}
 
-		// Determine the branch/ref name
-		refName := args[0]
-
-		// Create the path based on branch/ref name
-		topLevel, err := gitTop()
+		// Get repository path
+		repoPath, err := gitTop()
 		if err != nil {
 			fatal(err)
 		}
-		parentDir := filepath.Dir(topLevel)
-		repoName := filepath.Base(topLevel)
-		worktreesDir := filepath.Join(parentDir, "worktrees", repoName)
-		branchDir := filepath.Join(worktreesDir, refName)
 
-		// Create worktrees directory if it doesn't exist
-		if err := os.MkdirAll(worktreesDir, 0755); err != nil {
+		// Determine branch name and start point
+		branchName := args[0]
+		startPoint := ""
+		if *createBranch && len(args) >= 2 {
+			startPoint = args[1]
+		}
+
+		// Execute the add command
+		if err := commands.RunAddCommand(repoPath, "git", *createBranch, false, branchName, startPoint, execCommands); err != nil {
 			fatal(err)
 		}
-
-		if *createBranch {
-			// wt add -b <new-branch> [<start-point>]
-			newBranch := refName
-			if len(args) >= 2 {
-				start := args[1]
-				if err := runGit("worktree", "add", "-b", newBranch, branchDir, start); err != nil {
-					fatal(err)
-				}
-			} else {
-				// if no start point given, try to use the repository default branch
-				if df, err := defaultRef(); err == nil {
-					if err := runGit("worktree", "add", "-b", newBranch, branchDir, df); err != nil {
-						fatal(err)
-					}
-				} else {
-					// fall back to original behaviour (start at HEAD)
-					if err := runGit("worktree", "add", "-b", newBranch, branchDir); err != nil {
-						fatal(err)
-					}
-				}
-			}
-		} else {
-			// wt add <branch|commit>
-			ref := refName
-			if err := runGit("worktree", "add", branchDir, ref); err != nil {
-				fatal(err)
-			}
-		}
-		fmt.Printf("Worktree created at: %s\n", branchDir)
 	case "remove":
 		removeCmd := flag.NewFlagSet("remove", flag.ExitOnError)
 		removeCmd.Parse(os.Args[2:])
@@ -188,8 +177,9 @@ Usage:
     -j, --json           Output in JSON format for programmatic use
     -f, --filter <name>  Filter worktrees by name pattern
     -b, --branch <name>  Filter worktrees by branch name
-  wt add [-b] <branch>   Add a worktree (use -b to create a new branch)
+	  wt add [-b] [--exec <command>] <branch>   Add a worktree (use -b to create a new branch)
                           Worktrees are created in ../worktrees/<branchname>
+                          Use --exec to run commands in the new worktree
   wt remove [path]        Remove a worktree (interactive if no path specified)
   wt exec <command>       Execute a command in a selected worktree
   wt prune               Prune stale worktrees
