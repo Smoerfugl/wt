@@ -6,11 +6,11 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"github.com/smoerfugl/wt/internal/commands"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
-	"github.com/smoerfugl/wt/internal/commands"
 )
 
 func runNewListCommand(verbose, jsonOutput bool, filter, branch string) error {
@@ -156,6 +156,20 @@ func main() {
 		if err := interactiveExec(args); err != nil {
 			fatal(err)
 		}
+	case "version":
+		versionCmd := flag.NewFlagSet("version", flag.ExitOnError)
+		jsonOutput := versionCmd.Bool("j", false, "Output version information in JSON format")
+		help := versionCmd.Bool("h", false, "Show help for version command")
+		if err := versionCmd.Parse(os.Args[2:]); err != nil {
+			fatal(err)
+		}
+		if *help {
+			commands.PrintVersionHelp()
+			return
+		}
+		if err := commands.RunVersionCommand(versionCmd.Args(), *jsonOutput); err != nil {
+			fatal(err)
+		}
 	case "help", "-h", "--help":
 		usage()
 	default:
@@ -179,6 +193,7 @@ Usage:
   wt remove [path]        Remove a worktree (interactive if no path specified)
   wt exec <command>       Execute a command in a selected worktree
   wt prune               Prune stale worktrees
+  wt version             Display version information
   wt help                Show this help
 `)
 }

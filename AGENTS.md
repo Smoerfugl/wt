@@ -197,3 +197,10 @@ go install ./cmd/wt
 - Keep constitution aligned with project needs
 - Review and update agent configurations regularly
 - Maintain comprehensive test coverage
+
+## Active Technologies
+- Go 1.21+ (current project language) + Standard Go library only (no external dependencies needed) (001-version-command)
+- N/A (version information embedded in binary) (001-version-command)
+
+## Recent Changes
+- 001-version-command: Added Go 1.21+ (current project language) + Standard Go library only (no external dependencies needed)
