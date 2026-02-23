@@ -37,5 +37,5 @@ jobs:
              To install this version:
 
              ```bash
-             go install github.com/smoerfugl/wt@v${{ github.ref_name }}
+             go install github.com/smoerfugl/wt@${{ github.ref_name }}
              ```
