@@ -6,28 +6,36 @@ on:
       - 'v*'
 
 jobs:
-  build:
-    name: Build release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+   build:
+     name: Build release
+     runs-on: ubuntu-latest
+     steps:
+       - name: Checkout code
+         uses: actions/checkout@v4
 
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.22'
+       - name: Set up Go
+         uses: actions/setup-go@v5
+         with:
+           go-version: '1.22'
 
-      - name: Go fmt
-        run: make fmt
+       - name: Go fmt
+         run: make fmt
 
-      - name: Go vet
-        run: make vet
+       - name: Go vet
+         run: make vet
 
-      - name: Build
-        run: make build
+       - name: Build
+         run: make build
 
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: wt
+       - name: Release
+         uses: softprops/action-gh-release@v2
+         with:
+           files: wt
+           body: |
+             ## Installation
+
+             To install this version:
+
+             ```bash
+             go install github.com/smoerfugl/wt@v${{ github.ref_name }}
+             ```
