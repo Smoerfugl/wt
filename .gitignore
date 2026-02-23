@@ -1,0 +1,45 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+bin/
+
+# Build and package directories
+pkg/
+vendor/
+
+# Executable produced by this repository's build (common for Go CLI projects)
+wt
+
+# Go tooling
+# note: keep go.sum tracked - do not ignore it unless you know what you're doing
+Godeps/
+
+# Editor/IDE files
+.idea/
+.vscode/
+*.swp
+*~
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Local environment files
+.env
+.env.*
+
+# Ruff (Python linter) cache used in this repo
+.ruff_cache/
+
+# Ralph local config/cache
+.ralph/
+
+# Test output / coverage
+coverage.out
