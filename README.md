@@ -21,6 +21,12 @@ make build
 # produces ./wt
 ```
 
+### As a Go module
+
+```bash
+go install github.com/smoerfugl/wt@latest
+```
+
 Requires Go 1.20 or later.
 
 ## Usage
