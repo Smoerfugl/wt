@@ -13,7 +13,7 @@ pkg/
 vendor/
 
 # Executable produced by this repository's build (common for Go CLI projects)
-wt
+/wt
 
 # Go tooling
 # note: keep go.sum tracked - do not ignore it unless you know what you're doing
