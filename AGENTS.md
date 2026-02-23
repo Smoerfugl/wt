@@ -43,6 +43,8 @@ go vet ./...
 
 ## Code Style
 
+For detailed code style guidelines, see the [Style Guide](docs/styleguide.md).
+
 ### Go Standards
 - Follow official Go formatting (`go fmt`)
 - Use `go vet` for static analysis
