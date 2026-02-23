@@ -6,6 +6,26 @@ on:
       - master
 
 jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Pwd
+        run: |
+          pwd
+          ls -la
+
+      - name: Build
+        run: make build
+
   test:
     name: Test
     needs: build
@@ -19,9 +39,6 @@ jobs:
         with:
           go-version: '1.22'
 
-      - name: Pwd
-        run: pwd
-
       - name: Go fmt
         run: make fmt
 
@@ -30,18 +47,3 @@ jobs:
 
       - name: Test
         run: make test
-
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.22'
-
-      - name: Build
-        run: make build
