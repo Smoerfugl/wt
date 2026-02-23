@@ -108,6 +108,37 @@ All changes must comply with the [Project Constitution](.specify/memory/constitu
 ### OpenCode AI
 Agents are configured in `.opencode/command/` directory with Markdown files defining behavior.
 
+### Repository layout note (for agents and contributors)
+
+The project's Go packages were initially implemented under `src/` (for example `src/services`, `src/models`, etc.).
+This repository follows a more idiomatic Go layout where packages live at the module root (or under `internal/` when they should be private).
+
+When updating imports or adding new packages, place packages at the top level so imports read like `worktree-manager/services` rather than `worktree-manager/src/services`.
+
+If you run into references to `worktree-manager/src/...`, move the package directories out of `src/` and update imports accordingly. Example steps:
+
+1. Move directories:
+
+   ```bash
+   git mv src/services services
+   git mv src/models models
+   git mv src/commands commands
+   git mv src/utils utils
+   ```
+
+2. Update imports that reference `worktree-manager/src/` to `worktree-manager/` (search and replace across the repo).
+
+3. Run formatting and verification:
+
+   ```bash
+   gofmt -w .
+   go mod tidy
+   go build ./...
+   go test ./...
+   ```
+
+Agents should prefer the top-level layout when producing or moving code. If a package is intended to be private to the module, prefer placing it in `internal/`.
+
 ### Worktree Management Commands
 ```bash
 # List all worktrees
