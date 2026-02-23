@@ -16,7 +16,13 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.23'
+          go-version: '1.22'
+
+      - name: Go fmt
+        run: make fmt
+
+      - name: Go vet
+        run: make vet
 
       - name: Build
         run: make build
