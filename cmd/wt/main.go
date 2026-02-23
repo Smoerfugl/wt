@@ -177,7 +177,7 @@ Usage:
     -j, --json           Output in JSON format for programmatic use
     -f, --filter <name>  Filter worktrees by name pattern
     -b, --branch <name>  Filter worktrees by branch name
-	  wt add [-b] [--exec <command>] <branch>   Add a worktree (use -b to create a new branch)
+  wt add [-b] [--exec <command>] <branch>   Add a worktree (use -b to create a new branch)
                           Worktrees are created in ../worktrees/<branchname>
                           Use --exec to run commands in the new worktree
   wt remove [path]        Remove a worktree (interactive if no path specified)
