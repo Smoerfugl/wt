@@ -1,9 +1,9 @@
 package utils
 
 import (
+	"github.com/smoerfugl/wt/internal/models"
 	"strings"
 	"testing"
-	"worktree-manager/models"
 )
 
 func TestFormatBasicAndVerbose(t *testing.T) {

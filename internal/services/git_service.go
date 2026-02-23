@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"worktree-manager/models"
+	"github.com/smoerfugl/wt/internal/models"
 )
 
 // GitService handles Git operations

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strings"
 
-	"worktree-manager/models"
-	"worktree-manager/services"
-	"worktree-manager/utils"
+	"github.com/smoerfugl/wt/internal/models"
+	"github.com/smoerfugl/wt/internal/services"
+	"github.com/smoerfugl/wt/internal/utils"
 )
 
 // ListCommand handles the 'wt list' command

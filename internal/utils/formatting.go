@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"worktree-manager/models"
+	"github.com/smoerfugl/wt/internal/models"
 )
 
 // FormatBasic outputs worktrees in basic format

@@ -1,9 +1,9 @@
 package commands
 
 import (
+	"github.com/smoerfugl/wt/internal/services"
 	"os/exec"
 	"testing"
-	"worktree-manager/services"
 )
 
 func TestNewListCommandCreation(t *testing.T) {
