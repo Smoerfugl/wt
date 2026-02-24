@@ -29,7 +29,7 @@ All features must be specified before implementation:
 go mod tidy
 
 # Build the CLI
-go build -o wt ./cmd/wt
+go build -o wt .
 
 # Run tests
 go test ./...
@@ -185,10 +185,10 @@ wt exec <command> [<args>...]
 
 ```bash
 # Build release binary
-go build -ldflags="-s -w" -o wt ./cmd/wt
+go build -ldflags="-s -w" -o wt .
 
 # Install to GOPATH
-go install ./cmd/wt
+go install .
 ```
 
 ## Maintenance

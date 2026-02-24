@@ -1,7 +1,7 @@
 # Simple Makefile for building the wt CLI
 
 BINARY := wt
-CMD := ./cmd/wt
+CMD := .
 GO := go
 LDFLAGS := -s -w
 

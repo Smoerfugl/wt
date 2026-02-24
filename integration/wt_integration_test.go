@@ -48,7 +48,7 @@ func TestWtAddListRemoveFlow(t *testing.T) {
 	// Build binary
 	binDir := t.TempDir()
 	binPath := filepath.Join(binDir, "wtbin")
-	if out, err := runCmd(repoRoot, "go", "build", "-o", binPath, "./cmd/wt"); err != nil {
+	if out, err := runCmd(repoRoot, "go", "build", "-o", binPath, "."); err != nil {
 		t.Fatalf("failed to build wt binary: %v\noutput:\n%s", err, out)
 	}
 	defer os.Remove(binPath)
