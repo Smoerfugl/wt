@@ -24,7 +24,7 @@ make build
 ### As a Go module
 
 ```bash
-go install github.com/smoerfugl/wt@latest
+go install github.com/smoerfugl/wt/cmd/wt@latest
 ```
 
 Requires Go 1.20 or later.
