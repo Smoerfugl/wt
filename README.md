@@ -24,7 +24,7 @@ make build
 ### As a Go module
 
 ```bash
-go install github.com/smoerfugl/wt/cmd/wt@latest
+go install github.com/smoerfugl/wt@latest
 ```
 
 Requires Go 1.20 or later.
@@ -102,7 +102,7 @@ make build    # go build -o wt ./cmd/wt
 ### Project layout
 
 ```
-cmd/wt/             # CLI entry point
+main.go             # CLI entry point
 internal/
   commands/         # Command structs (ListCommand, ...)
   models/           # Domain types (Worktree, Repository)
