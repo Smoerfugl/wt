@@ -49,6 +49,10 @@ func main() {
 	case "add":
 		addCmd := flag.NewFlagSet("add", flag.ExitOnError)
 		createBranch := addCmd.Bool("b", false, "create a new branch with -b")
+		remote := addCmd.String("remote", "", "remote name to set upstream to (e.g. origin)")
+		force := addCmd.Bool("force", false, "force operation (overwrite existing branch)")
+		noUpstream := addCmd.Bool("no-upstream", false, "do not configure upstream for created branch")
+		worktreePathFlag := addCmd.String("path", "", "explicit path for worktree instead of default ../worktrees/<repo>/<branch>")
 		addCmd.String("exec", "", "command to execute in the worktree after creation")
 		addCmd.String("e", "", "command to execute in the worktree after creation (shorthand)")
 		addCmd.Parse(os.Args[2:])
@@ -102,7 +106,7 @@ func main() {
 		}
 
 		// Execute the add command
-		if err := commands.RunAddCommand(repoPath, "git", *createBranch, false, branchName, startPoint, execCommands); err != nil {
+		if err := commands.RunAddCommand(repoPath, "git", *createBranch, false, branchName, startPoint, execCommands, *force, *remote, *noUpstream, *worktreePathFlag); err != nil {
 			fatal(err)
 		}
 	case "remove":

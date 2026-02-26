@@ -202,6 +202,7 @@ go install ./cmd/wt
 - Go 1.21+ (current project language) + Standard Go library only (no external dependencies needed) (001-version-command)
 - N/A (version information embedded in binary) (001-version-command)
 - N/A (uses existing Git worktree storage) (002-exec)
+- Go 1.21 + none (standard library); the CLI will invoke the system `git` executable for worktree and branch operations (001-set-upstream-branch)
 
 ## Recent Changes
 - 001-version-command: Added Go 1.21+ (current project language) + Standard Go library only (no external dependencies needed)
