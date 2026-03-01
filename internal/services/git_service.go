@@ -146,6 +146,21 @@ func (gs *GitService) AddWorktreeWithBranch(worktreePath, branchName, startPoint
 	return nil
 }
 
+// SetUpstreamBranch configures the upstream tracking branch for the given branch.
+// It runs: git branch --set-upstream-to=origin/<branchName> <branchName>
+// in the provided working directory.
+// Note: this will fail if origin/<branchName> has not been pushed to the remote yet.
+func (gs *GitService) SetUpstreamBranch(workDir, branchName string) error {
+	upstream := "origin/" + branchName
+	cmd := exec.Command(gs.gitPath, "branch", "--set-upstream-to="+upstream, branchName)
+	cmd.Dir = workDir
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("failed to set upstream branch: %w (output: %s)", err, string(output))
+	}
+	return nil
+}
+
 // EnsureWorktreesDir ensures the worktrees directory exists
 func (gs *GitService) EnsureWorktreesDir(repoPath string) error {
 	parentDir := filepath.Dir(repoPath)
