@@ -105,6 +105,13 @@ func (ac *AddCommand) Execute(repoPath string) error {
 
 	fmt.Printf("Worktree created at: %s\n", ac.worktreePath)
 
+	// Configure upstream tracking branch when a new branch was created
+	if ac.createBranch {
+		if err := ac.gitService.SetUpstreamBranch(repoPath, ac.branchName); err != nil {
+			fmt.Printf("Warning: could not set upstream branch: %v\n", err)
+		}
+	}
+
 	// Execute commands if any
 	if len(ac.execCommands) > 0 {
 		if err := ac.executeCommands(); err != nil {
