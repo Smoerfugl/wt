@@ -99,9 +99,10 @@ func TestSetUpstreamBranch(t *testing.T) {
 	}
 
 	gs := NewGitService("")
-	// SetUpstreamBranch should fail gracefully when origin/<branch> does not exist yet
-	// (warning is printed, but we only test that the method doesn't panic)
-	_ = gs.SetUpstreamBranch(localDir, branchName)
+	// SetUpstreamBranch should return nil (no error) when origin/<branch> does not exist yet.
+	if err := gs.SetUpstreamBranch(localDir, branchName); err != nil {
+		t.Fatalf("SetUpstreamBranch should not error when remote branch does not exist: %v", err)
+	}
 
 	// Push the branch to remote so the upstream can be set
 	if out, err := exec.Command("git", "-C", localDir, "push", "origin", branchName).CombinedOutput(); err != nil {
